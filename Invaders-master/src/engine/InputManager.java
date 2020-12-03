@@ -3,6 +3,8 @@ package engine;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.JFrame;
+
 /**
  * Manages keyboard input for the provided screen.
  * 
@@ -17,6 +19,8 @@ public final class InputManager implements KeyListener {
 	private static boolean[] keys;
 	/** Singleton instance of the class. */
 	private static InputManager instance;
+	
+	private static boolean running = true;
 
 	/**
 	 * Private constructor.
@@ -46,7 +50,7 @@ public final class InputManager implements KeyListener {
 	public boolean isKeyDown(final int keyCode) {
 		return keys[keyCode];
 	}
-
+	    
 	/**
 	 * Changes the state of the key to pressed.
 	 * 
@@ -55,8 +59,17 @@ public final class InputManager implements KeyListener {
 	 */
 	@Override
 	public void keyPressed(final KeyEvent key) {
-		if (key.getKeyCode() >= 0 && key.getKeyCode() < NUM_KEYS)
+		if (key.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			running=!running;
+			System.out.println(running);
+		}
+		else if (key.getKeyCode() >= 0 && key.getKeyCode() < NUM_KEYS)
 			keys[key.getKeyCode()] = true;
+		
+	}
+	
+	public boolean getRunning(){
+		return running;
 	}
 
 	/**

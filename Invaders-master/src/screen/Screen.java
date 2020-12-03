@@ -1,6 +1,7 @@
 package screen;
 
 import java.awt.Insets;
+import java.awt.event.KeyEvent;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -79,6 +80,7 @@ public class Screen {
 	 * @return Next screen code.
 	 */
 	public int run() {
+		
 		this.isRunning = true;
 
 		while (this.isRunning) {
@@ -98,7 +100,7 @@ public class Screen {
 
 		return 0;
 	}
-
+	
 	/**
 	 * Updates the elements on screen and checks for events.
 	 */

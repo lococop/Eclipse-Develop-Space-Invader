@@ -133,6 +133,7 @@ public class GameScreen extends Screen {
 	 * @return Next screen code.
 	 */
 	public final int run() {
+		
 		super.run();
 
 		this.score += LIFE_SCORE * (this.lives - 1);
@@ -214,6 +215,14 @@ public class GameScreen extends Screen {
 	 * Draws the elements associated with the screen.
 	 */
 	private void draw() {
+		while(!this.inputManager.getRunning()) {
+			try {
+
+	               Thread.sleep(100);
+
+	            } catch(InterruptedException e){}
+
+	        }	
 		drawManager.initDrawing(this);
 
 		drawManager.drawEntity(this.ship, this.ship.getPositionX(),
