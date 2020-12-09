@@ -18,8 +18,6 @@ public final class InputManager implements KeyListener {
 	private static boolean[] keys;
 	/** Singleton instance of the class. */
 	private static InputManager instance;
-	
-	private static boolean running = true;
 
 	/**
 	 * Private constructor.
@@ -58,19 +56,8 @@ public final class InputManager implements KeyListener {
 	 */
 	@Override
 	public void keyPressed(final KeyEvent key) {
-		if (key.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			running=!running;
-			if(running == false)
-				System.out.println("일시정지");
-			else 
-				System.out.println("일시정지 해제");
-		}
-		else if (key.getKeyCode() >= 0 && key.getKeyCode() < NUM_KEYS)
+		if (key.getKeyCode() >= 0 && key.getKeyCode() < NUM_KEYS)
 			keys[key.getKeyCode()] = true;
-	}
-	
-	public boolean getRunning(){
-		return running;
 	}
 
 	/**

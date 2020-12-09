@@ -64,26 +64,21 @@ public class HighScoreScreen extends Screen {
 		if (inputManager.isKeyDown(KeyEvent.VK_SPACE)
 				&& this.inputDelay.checkFinished())
 			this.isRunning = false;
+		try {
+			if (inputManager.isKeyDown(KeyEvent.VK_ENTER) && this.inputDelay.checkFinished()) {
+				Core.getFileManager().initializeScore(Core.getFileManager().loadHighScores());
+				this.highScores = Core.getFileManager().loadHighScores();
+				System.out.println("Initialize Score");
+			}
+		} catch (NumberFormatException | IOException e) {
+			logger.warning("Couldn't load high scores!");
+		}
 	}
 
 	/**
 	 * Draws the elements associated with the screen.
 	 */
 	private void draw() {
-		while(!this.inputManager.getRunning()) {
-			try {
-				Thread.sleep(100);
-			} catch(InterruptedException e){}
-		}
-		try {
-			if (inputManager.isKeyDown(KeyEvent.VK_ENTER)) {
-				Core.getFileManager().initializeScore(Core.getFileManager().loadHighScores());
-				this.highScores = Core.getFileManager().loadHighScores();
-				System.out.println("YES");
-			}
-		} catch (NumberFormatException | IOException e) {
-			logger.warning("Couldn't load high scores!");
-		}
 		drawManager.initDrawing(this);
 
 		drawManager.drawHighScoreMenu(this);

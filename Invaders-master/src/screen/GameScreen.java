@@ -70,6 +70,8 @@ public class GameScreen extends Screen {
 	private boolean levelFinished;
 	/** Checks if a bonus life is received. */
 	private boolean bonusLife;
+	
+	private static boolean pause = false;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -147,7 +149,22 @@ public class GameScreen extends Screen {
 	 */
 	protected final void update() {
 		super.update();
-
+		
+		if(inputManager.isKeyDown(KeyEvent.VK_ESCAPE) && this.inputDelay.checkFinished()) {
+			pause = true;
+			System.out.println("일시정지");
+		}
+		
+		while(pause) {
+			try {
+				Thread.sleep(100);
+				if(inputManager.isKeyDown(KeyEvent.VK_F1)) {
+					pause = false;
+					System.out.println("일시정지 해제");
+				}
+			} catch(InterruptedException e){}
+		}
+		
 		if (this.inputDelay.checkFinished() && !this.levelFinished) {
 
 			if (!this.ship.isDestroyed()) {
@@ -215,12 +232,7 @@ public class GameScreen extends Screen {
 	 * Draws the elements associated with the screen.
 	 */
 	private void draw() {
-		while(!this.inputManager.getRunning()) {
-			try {
-				Thread.sleep(100);
-			} catch(InterruptedException e){}
-		}	
-		
+	
 		drawManager.initDrawing(this);
 
 		drawManager.drawEntity(this.ship, this.ship.getPositionX(),
