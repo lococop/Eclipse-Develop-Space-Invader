@@ -2,6 +2,7 @@ package engine;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+
 import engine.DrawManager.SpriteType;
 
 /**
@@ -37,7 +39,6 @@ public final class FileManager {
 	private static Logger logger;
 	/** Max number of high scores. */
 	private static final int MAX_SCORES = 7;
-
 	/**
 	 * private constructor.
 	 */
@@ -136,7 +137,7 @@ public final class FileManager {
 	 * @throws IOException
 	 *             In case of loading problems.
 	 */
-	private List<Score> loadDefaultHighScores() throws IOException {
+	public List<Score> loadDefaultHighScores() throws IOException {
 		List<Score> highScores = new ArrayList<Score>();
 		InputStream inputStream = null;
 		BufferedReader reader = null;
@@ -217,7 +218,6 @@ public final class FileManager {
 		Collections.sort(highScores);
 		return highScores;
 	}
-
 	/**
 	 * Saves user high scores to disk.
 	 * 
@@ -263,6 +263,47 @@ public final class FileManager {
 				savedCount++;
 			}
 
+		} finally {
+			if (bufferedWriter != null)
+				bufferedWriter.close();
+		}
+	}
+	
+	public void initializeScore(final List<Score> highScores) throws IOException {
+		OutputStream outputStream = null;
+		BufferedWriter bufferedWriter = null;
+
+		try {
+			String jarPath = FileManager.class.getProtectionDomain()
+					.getCodeSource().getLocation().getPath();
+			jarPath = URLDecoder.decode(jarPath, "UTF-8");
+
+			String scoresPath = new File(jarPath).getParent();
+			scoresPath += File.separator;
+			scoresPath += "scores";
+
+			File scoresFile = new File(scoresPath);
+
+			if (!scoresFile.exists())
+				scoresFile.createNewFile();
+
+			outputStream = new FileOutputStream(scoresFile);
+			bufferedWriter = new BufferedWriter(new OutputStreamWriter(
+					outputStream, Charset.forName("UTF-8")));
+
+			logger.info("Initialize user high scores.");
+			
+			int savedCount = 0;
+			for (Score score : highScores) {
+				if (savedCount >= 4)
+					break;
+				bufferedWriter.write(score.getName());
+				bufferedWriter.newLine();
+				bufferedWriter.write(Integer.toString(score.getScore()));
+				bufferedWriter.newLine();
+				savedCount++;
+			}
+			
 		} finally {
 			if (bufferedWriter != null)
 				bufferedWriter.close();

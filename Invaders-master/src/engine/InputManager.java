@@ -3,7 +3,6 @@ package engine;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JFrame;
 
 /**
  * Manages keyboard input for the provided screen.
@@ -61,11 +60,13 @@ public final class InputManager implements KeyListener {
 	public void keyPressed(final KeyEvent key) {
 		if (key.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			running=!running;
-			System.out.println(running);
+			if(running == false)
+				System.out.println("일시정지");
+			else 
+				System.out.println("일시정지 해제");
 		}
 		else if (key.getKeyCode() >= 0 && key.getKeyCode() < NUM_KEYS)
 			keys[key.getKeyCode()] = true;
-		
 	}
 	
 	public boolean getRunning(){

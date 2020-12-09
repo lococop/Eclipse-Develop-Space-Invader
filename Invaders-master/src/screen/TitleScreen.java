@@ -101,6 +101,11 @@ public class TitleScreen extends Screen {
 	 * Draws the elements associated with the screen.
 	 */
 	private void draw() {
+		while(!this.inputManager.getRunning()) {
+			try {
+				Thread.sleep(100);
+			} catch(InterruptedException e){}
+		}
 		drawManager.initDrawing(this);
 
 		drawManager.drawTitle(this);

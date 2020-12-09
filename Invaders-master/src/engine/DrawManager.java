@@ -12,10 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import screen.Screen;
 import entity.Entity;
 import entity.Ship;
-
+import screen.Screen;
 /**
  * Manages screen drawing.
  * 
@@ -45,7 +44,7 @@ public final class DrawManager {
 	/** Big sized font. */
 	private static Font fontBig;
 	/** Big sized font properties. */
-	private static FontMetrics fontBigMetrics;
+	private static FontMetrics fontBigMetrics;	
 
 	/** Sprite types mapped to their images. */
 	private static Map<SpriteType, boolean[][]> spriteMap;
@@ -455,6 +454,7 @@ public final class DrawManager {
 	public void drawHighScoreMenu(final Screen screen) {
 		String highScoreString = "High Scores";
 		String instructionsString = "Press Space to return";
+		String initializeScoreString = "Press Enter to Initialize Score";
 
 		backBufferGraphics.setColor(Color.GREEN);
 		drawCenteredBigString(screen, highScoreString, screen.getHeight() / 8);
@@ -462,6 +462,11 @@ public final class DrawManager {
 		backBufferGraphics.setColor(Color.GRAY);
 		drawCenteredRegularString(screen, instructionsString,
 				screen.getHeight() / 5);
+		
+		backBufferGraphics.setColor(Color.GRAY);
+		drawCenteredRegularString(screen, initializeScoreString,
+				screen.getHeight() / 3
+				* 2 + fontRegularMetrics.getHeight() * 4);
 	}
 
 	/**

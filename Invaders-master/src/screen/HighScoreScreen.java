@@ -17,6 +17,7 @@ public class HighScoreScreen extends Screen {
 
 	/** List of past high scores. */
 	private List<Score> highScores;
+	
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -34,7 +35,9 @@ public class HighScoreScreen extends Screen {
 		this.returnCode = 1;
 
 		try {
+			
 			this.highScores = Core.getFileManager().loadHighScores();
+			
 		} catch (NumberFormatException | IOException e) {
 			logger.warning("Couldn't load high scores!");
 		}
@@ -47,7 +50,7 @@ public class HighScoreScreen extends Screen {
 	 */
 	public final int run() {
 		super.run();
-
+		
 		return this.returnCode;
 	}
 
@@ -67,6 +70,20 @@ public class HighScoreScreen extends Screen {
 	 * Draws the elements associated with the screen.
 	 */
 	private void draw() {
+		while(!this.inputManager.getRunning()) {
+			try {
+				Thread.sleep(100);
+			} catch(InterruptedException e){}
+		}
+		try {
+			if (inputManager.isKeyDown(KeyEvent.VK_ENTER)) {
+				Core.getFileManager().initializeScore(Core.getFileManager().loadHighScores());
+				this.highScores = Core.getFileManager().loadHighScores();
+				System.out.println("YES");
+			}
+		} catch (NumberFormatException | IOException e) {
+			logger.warning("Couldn't load high scores!");
+		}
 		drawManager.initDrawing(this);
 
 		drawManager.drawHighScoreMenu(this);

@@ -217,12 +217,10 @@ public class GameScreen extends Screen {
 	private void draw() {
 		while(!this.inputManager.getRunning()) {
 			try {
-
-	               Thread.sleep(100);
-
-	            } catch(InterruptedException e){}
-
-	        }	
+				Thread.sleep(100);
+			} catch(InterruptedException e){}
+		}	
+		
 		drawManager.initDrawing(this);
 
 		drawManager.drawEntity(this.ship, this.ship.getPositionX(),
